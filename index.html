@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Envelope + Letter (Open/Close on Click)</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        .click-text {
+            position: absolute;
+            top: 60%;
+            left: 41%;
+            transform: translate(-50%, -50%);
+            color: rgb(0, 0, 0);
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(212, 0, 0, 0.5);
+            z-index: 5;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="envelope-wrapper">
+            <div class="envelope">
+                <div class="click-text">Click</div>
+                <div class="letter">
+                    <div class="text">
+                        <strong>Querida Júlia,</strong>
+                        <p>Feliz aniversário! Não sou muito bom com palavras, quem me conhece sabe ksks, mas vamos lá.
+                            Você se tornou uma amiga querida, mesmo que ainda não tenhamos ido almoçar juntos rs, e que
+                            não conversemos tanto assim.</p>
+                    </div>
+                    <div class="text">
+                        <p>Foi muito bom conhecê-la aqui na AFEAM; mesmo nesse pouco tempo, você se tornou uma amiga
+                            importante e divertida. Não sei se pensa o mesmo de mim rs. Agradeço por compartilhar um
+                            pouco das coisas comigo e até mesmo por ouvir minha opinião.</p>
+                    </div>
+                    <div class="text">
+                        <p>É uma amiga que eu gosto de cumprimentar sempre que chego ao trabalho e dizer 'Oi!' rsrs. Que
+                            este dia seja muito especial e incrível, e peço a Deus que todos os seus sonhos se realizem
+                            neste novo ano.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="heart"></div>
+            <div class="balloons-top">
+                <!-- Balões omitidos para brevidade -->
+            </div>
+            <div class="balloon-string"></div>
+        </div>
+        <div class="balloons-container"></div>
+    </div>
+    <script>
+        const envelope = document.querySelector('.envelope-wrapper');
+        const letter = document.querySelector('.letter');
+        const balloonsContainer = document.querySelector('.balloons-container');
+        let currentCard = 0;
+        const cards = document.querySelectorAll('.text');
+
+        const createBalloon = () => {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.left = `${Math.random() * 100}%`;
+            balloonsContainer.appendChild(balloon);
+
+            setTimeout(() => {
+                balloon.remove();
+            }, 6000); // Duração da animação
+        };
+
+        const releaseBalloons = () => {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(createBalloon, i * 200); // Intervalo entre os balões
+            }
+        };
+
+        envelope.addEventListener('click', () => {
+            if (!envelope.classList.contains('flap')) {
+                envelope.classList.add('flap');
+                cards[currentCard].style.display = 'block';
+            } else {
+                cards[currentCard].classList.add('minimize');
+                setTimeout(() => {
+                    cards[currentCard].style.display = 'none';
+                    cards[currentCard].classList.remove('minimize');
+                    currentCard = (currentCard + 1) % cards.length;
+                    if (currentCard === 0) {
+                        envelope.classList.remove('flap');
+                        cards.forEach(card => card.style.display = 'none');
+                        setTimeout(() => {
+                            cards[0].style.display = 'block';
+                        }, 500);
+                        releaseBalloons();
+                    } else {
+                        cards[currentCard].style.display = 'block';
+                    }
+                }, 500);
+            }
+        });
+    </script>
+</body>
+
+</html>

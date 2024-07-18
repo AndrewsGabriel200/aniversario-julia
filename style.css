@@ -1,0 +1,215 @@
+:root {
+  --primary: #fff;
+  --bg-color: rgb(5, 53, 61);
+  --bg-envelope-color: #f5edd1;
+  --envelope-tab: #ecdeb8;
+  --envelope-cover: #e6cfa7;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  --txt-color: #444;
+  --heart-color: rgb(252, 8, 231);
+  --balloon-color1: #e74c3c;
+  --balloon-color2: #f1c40f;
+  --balloon-color3: #2ecc71;
+  --balloon-color4: #3498db;
+  --balloon-color5: #9b59b6;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.container {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.container>.envelope-wrapper {
+  background: var(--bg-envelope-color);
+  box-shadow: 0 0 40px var(--shadow-color);
+  position: relative;
+}
+
+.envelope-wrapper>.envelope {
+  position: relative;
+  width: 300px;
+  height: 230px;
+}
+
+.envelope-wrapper>.envelope::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  border-top: 130px solid var(--envelope-tab);
+  border-right: 150px solid transparent;
+  border-left: 150px solid transparent;
+  transform-origin: top;
+  transition: all 0.5s ease-in-out 0.7s;
+}
+
+.envelope-wrapper>.envelope::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  width: 0px;
+  height: 0px;
+  border-top: 130px solid transparent;
+  border-right: 150px solid var(--envelope-cover);
+  border-bottom: 100px solid var(--envelope-cover);
+  border-left: 150px solid var(--envelope-cover);
+}
+
+.envelope>.letter {
+  position: absolute;
+  right: 20%;
+  bottom: 0;
+  width: 54%;
+  height: 80%;
+  background: var(--primary);
+  text-align: center;
+  transition: all 1s ease-in-out;
+  box-shadow: 0 0 5px var(--shadow-color);
+  padding: 20px 10px;
+  overflow: hidden;
+}
+
+.envelope>.letter>.text {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: var(--txt-color);
+  text-align: left;
+  font-size: 10px;
+  display: none;
+  transition: all 0.5s ease-in-out;
+}
+
+.envelope>.letter>.text:first-child {
+  display: block;
+}
+
+.envelope>.letter>.text.minimize {
+  transform: scale(0.1);
+  opacity: 0;
+}
+
+.heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 15px;
+  height: 15px;
+  background: var(--heart-color);
+  z-index: 4;
+  transform: translate(-50%, -20%) rotate(45deg);
+  transition: transform 0.5s ease-in-out 1s;
+  box-shadow: 0 1px 6px var(--shadow-color);
+  cursor: pointer;
+}
+
+.heart:before,
+.heart:after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: var(--heart-color);
+  border-radius: 50%;
+}
+
+.heart:before {
+  top: -7.5px;
+}
+
+.heart:after {
+  right: 7.5px;
+}
+
+.flap>.envelope:before {
+  transform: rotateX(180deg);
+  z-index: 0;
+}
+
+.flap>.envelope>.letter {
+  bottom: 100px;
+  transform: scale(1.5);
+  transition-delay: 1s;
+}
+
+.flap>.heart {
+  transform: rotate(90deg);
+  transition-delay: 0.4s;
+}
+
+.balloons-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+
+.balloon {
+  position: absolute;
+  bottom: 100vh;
+  width: 40px;
+  /* Aumentei o tamanho dos balões */
+  height: 80px;
+  /* Aumentei o tamanho dos balões */
+  border-radius: 50%;
+  background-color: var(--balloon-color1);
+  animation: floatUp 6s ease-in-out;
+}
+
+.balloon:nth-child(odd) {
+  background-color: var(--balloon-color2);
+}
+
+.balloon:nth-child(even) {
+  background-color: var(--balloon-color3);
+}
+
+.balloon:nth-child(3n) {
+  background-color: var(--balloon-color4);
+}
+
+.balloon:nth-child(4n) {
+  background-color: var(--balloon-color5);
+}
+
+.balloon-balloon {
+  display: inline-block;
+  font-size: 24px;
+  /* Aumentei o tamanho das letras */
+  margin-right: 4px;
+  /* Ajustei a margem entre as letras */
+  position: relative;
+  bottom: 30px;
+  /* Ajustei a posição das letras */
+  color: rgb(15, 214, 8);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) scale(0.5);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateY(50vh) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100px) scale(1.5);
+    opacity: 0;
+  }
+}
